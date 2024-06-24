@@ -27,6 +27,7 @@ sequenceDiagram
     Note right of browser: The browser executes the callback function that renders the notes
 
     browser->>server: POST { note: "Note content" }
+    activate server
     server->>browser: Status Code 302
     deactivate server
 
