@@ -71,6 +71,7 @@ const App = () => {
     setBad(newBad)
     setTotal(good + neutral + newBad)
     setAverage(average - 1)
+    
   }
 
   return (
