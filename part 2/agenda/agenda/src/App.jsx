@@ -84,12 +84,12 @@ const App = () => {
 
   const deletePerson = (id, name) => {
     if(window.confirm("Do you want to delete "+ name +"?")){
-      personService.deletePerson(id).then(data => {
-        const newPersons = persons.filter(person => person.id !== data.id)
+      personService.deletePerson(id).then(() => {
+        const newPersons = persons.filter(person => person.id !== id)
         setPersons(newPersons)
         setPersonsToShow(newPersons)
         setClassName('noti')
-        setErrorMessage('Deleted ' + data.name)
+        setErrorMessage('Deleted ' + name)
         setTimeout(() => {
           setErrorMessage(null)
         }, 5000)

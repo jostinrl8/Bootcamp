@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import notesService from './services/notes'
 import Notification from './components /Notification'
 
 const Note = ({ note, toggleImportance }) => {
@@ -17,15 +17,13 @@ const App = () => {
   const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] = useState(true)
-  const [errorMessage, setErrorMessage] = useState('some error happened...')
+  const [errorMessage, setErrorMessage] = useState(null)
 
   const hook = () => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/notes')
-      .then(response => {
-        console.log('promise fulfilled')
-        setNotes(response.data)
+    notesService
+      .getAll()
+      .then(initialNotes => {
+        setNotes(initialNotes)
       })
   }
   
@@ -38,10 +36,10 @@ const App = () => {
       important: Math.random() < 0.5
     }
 
-    axios
-      .post('http://localhost:3001/notes', noteObject)
-      .then(response => {
-        setNotes(notes.concat(response.data))
+    notesService
+      .create(noteObject)
+      .then(returnedNote => {
+        setNotes(notes.concat(returnedNote))
         setNewNote('')
       })
   }
@@ -58,7 +56,7 @@ const App = () => {
       const note = notes.find(n => n.id === id)
       const changedNote = { ...note, important: !note.important }
   
-      noteService
+      notesService
         .update(changedNote).then(returnedNote => {
           setNotes(notes.map(note => note.id !== id ? note : returnedNote))
         })
