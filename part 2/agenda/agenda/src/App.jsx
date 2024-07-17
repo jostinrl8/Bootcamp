@@ -57,7 +57,10 @@ const App = () => {
           })
           .catch(error => {
             setClassName('error')
-            setErrorMessage('Information of '+newName+' is not available anymore')
+            setErrorMessage(error.response.data.error)
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
           })
       }
       return
@@ -76,6 +79,13 @@ const App = () => {
       setNewNumber('')
       setClassName('noti')
       setErrorMessage('Added ' + newPerson.name + "'s number")
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    })
+    .catch(error => {
+      setClassName('error')
+      setErrorMessage(error.response.data.error)
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
